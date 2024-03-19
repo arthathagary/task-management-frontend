@@ -4,7 +4,7 @@ import daygridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
-import EventItem from "@/components/EventItem";
+import EventItem from "../components/EventItem.jsx";
 
 const MyCalendar = () => {
   const event = [
@@ -76,6 +76,7 @@ const MyCalendar = () => {
         select={handleSelect}
         headerToolbar={{
           start: "today prev next",
+          center: "title",
           end: "dayGridMonth dayGridWeek dayGridDay",
         }}
         plugins={[daygridPlugin, interactionPlugin]}
@@ -89,6 +90,7 @@ const MyCalendar = () => {
           />
         )}
         eventDrop={handleEventDrop}
+        titleFormat={{ month: "long", year: "numeric" }}
       />
     </div>
   );
