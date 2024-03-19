@@ -4,9 +4,26 @@ import daygridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
+import EventItem from "@/components/EventItem";
 
 const MyCalendar = () => {
   const [events, setEvents] = useState([]);
+  const event = [
+    {
+      title: "hello",
+    },
+  ];
+
+  const handleEventDrop = (info) => {
+    // ... (rest of your existing code)
+
+    if (!confirm("Are you sure you want to delete this event?")) {
+      return; // Stop execution if the user selects 'cancel'
+    }
+    // Deletion logic:
+    const eventId = info.id;
+    setEvents(events.filter((event) => event.id !== eventId));
+  };
 
   const handleSelect = (info) => {
     const { start, end } = info;
@@ -28,7 +45,8 @@ const MyCalendar = () => {
   };
 
   useEffect(() => {
-    console.log(events); // This will log the updated events after each change
+    console.log(events);
+    // This will log the updated events after each change
   }, [events]);
 
   return (
@@ -45,6 +63,10 @@ const MyCalendar = () => {
         plugins={[daygridPlugin, interactionPlugin]}
         views={["dayGridMonth", "dayGridWeek", "dayGridDay"]}
         // eventSources={d}
+        eventContent={(info) => (
+          <EventItem info={info} onDelete={handleEventDrop} />
+        )}
+        eventDrop={handleEventDrop}
       />
     </div>
   );
