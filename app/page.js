@@ -14,8 +14,11 @@ import {
   DialogTrigger,
 } from "../components/ui/dialog.jsx";
 
+import CreateModal from "../components/CreateModal.jsx";
+
 const MyCalendar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [info, setInfo] = useState();
   const event = [
     {
       start: "2024-03-06",
@@ -26,8 +29,8 @@ const MyCalendar = () => {
     {
       start: "2024-03-06",
       end: "2024-03-07",
-      title: "Hello",
-      id: "12112129",
+      title: "Hello2",
+      id: "121121292",
     },
   ];
 
@@ -40,24 +43,25 @@ const MyCalendar = () => {
   };
 
   const handleSelect = (info) => {
-    // setIsOpen(true);
+    setIsOpen(true);
+    setInfo(info);
     const { start, end } = info;
-    const eventNamePrompt = prompt("Enter, event name");
-    const startDate = prompt("Enter, start");
-    const endDate = prompt("Enter, end");
-    console.log(info.view.calendar);
-    if (eventNamePrompt) {
-      setEvents([
-        ...events,
-        {
-          start: startDate,
-          end: endDate,
-          title: eventNamePrompt,
-          id: uuid(),
-        },
-      ]);
-      // setIsOpen(false);
-    }
+    // const eventNamePrompt = prompt("Enter, event name");
+    // const startDate = prompt("Enter, start");
+    // const endDate = prompt("Enter, end");
+    // console.log(info.view.calendar);
+    // if (eventNamePrompt) {
+    //   setEvents([
+    //     ...events,
+    //     {
+    //       start: start,
+    //       end: end,
+    //       title: eventNamePrompt,
+    //       id: uuid(),
+    //     },
+    //   ]);
+    // setIsOpen(false);
+    // }
 
     //post api
   };
@@ -103,18 +107,13 @@ const MyCalendar = () => {
         />
       </div>
 
-      <Dialog open={isOpen}>
-        {/* <DialogTrigger>Open</DialogTrigger> */}
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <CreateModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setEvents={setEvents}
+        events={events}
+        info={info}
+      />
     </>
   );
 };
