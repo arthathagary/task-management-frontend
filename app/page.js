@@ -3,12 +3,14 @@ import daygridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation.js";
 import EventItem from "../components/EventItem.jsx";
 
 import CreateModal from "../components/CreateModal.jsx";
 import axios from "axios";
 
 const MyCalendar = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState();
   const [resEv, setResEv] = useState([]);
@@ -56,6 +58,8 @@ const MyCalendar = () => {
     // Deletion logic:
     const eventId = info.id;
     setEvents(events.filter((event) => event.id !== eventId));
+    axios.delete(`http://localhost:8080/api/v1/event/${info.id}`);
+    router.refresh();
   };
 
   const handleSelect = (info) => {
