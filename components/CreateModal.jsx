@@ -60,7 +60,7 @@ export default function CreateModal({
       <AlertDialog open={isOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>Create a event</AlertDialogTitle>
             <AlertDialogDescription>
               <form>
                 <Input

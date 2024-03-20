@@ -4,9 +4,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation.js";
-import EventItem from "../components/EventItem.jsx";
+import EventItem from "../../components/EventItem.jsx";
 
-import CreateModal from "../components/CreateModal.jsx";
+import CreateModal from "../../components/CreateModal.jsx";
 import axios from "axios";
 
 const MyCalendar = () => {
@@ -89,9 +89,9 @@ const MyCalendar = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
 
-  const handleEdit = (event) => {
-    setEventToEdit(event);
-    setIsEditing(true);
+  const handleEdit = (info) => {
+    const eventId = info.id;
+    console.log(event, "edit ev");
   };
 
   useEffect(() => {

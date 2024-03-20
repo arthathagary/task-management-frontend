@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModal";
 
 export default function EventItem({ info, onDelete, onEdit }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { event } = info;
   return (
     <>
@@ -13,7 +15,7 @@ export default function EventItem({ info, onDelete, onEdit }) {
         </div>
 
         <div className="flex items-center gap-1">
-          <button onClick={() => onEdit(event)}>
+          <button onClick={() => setIsOpenEdit(true)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -57,6 +59,13 @@ export default function EventItem({ info, onDelete, onEdit }) {
         onDelete={onDelete}
         event={event}
         setIsOpen={setIsOpen}
+      />
+
+      <EditModal
+        isOpen={isOpenEdit}
+        onEdit={onEdit}
+        event={event}
+        setIsOpen={setIsOpenEdit}
       />
     </>
   );
