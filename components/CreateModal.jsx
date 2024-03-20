@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
+import axios from "axios";
 
 import {
   AlertDialog,
@@ -11,7 +12,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "./ui/alert-dialog";
 
 import { Input } from "./ui/input";
@@ -29,9 +29,16 @@ export default function CreateModal({
     setData(e.target.value);
   };
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    console.log(data, "preseed");
+    console.log(info, "info");
+    const dataToSend = {
+      start: info.startStr,
+      end: info.endStr,
+      title: data,
+      id: uuid(),
+    };
+    console.log(dataToSend, "data");
     setEvents([
       ...events,
       {
@@ -41,6 +48,10 @@ export default function CreateModal({
         id: uuid(),
       },
     ]);
+    const res = await axios.post(
+      "http://localhost:8080/api/v1/events",
+      dataToSend
+    );
     setIsOpen(false);
     setData("");
   };
@@ -62,7 +73,14 @@ export default function CreateModal({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>
-              <button onClick={() => setIsOpen(false)}>Cancel</button>
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  setData("");
+                }}
+              >
+                Cancel
+              </button>
             </AlertDialogCancel>
             <AlertDialogAction>
               <button onClick={handleClick}>Continue</button>

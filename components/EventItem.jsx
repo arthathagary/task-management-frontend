@@ -5,7 +5,6 @@ import DeleteModal from "./DeleteModal";
 export default function EventItem({ info, onDelete, onEdit }) {
   const [isOpen, setIsOpen] = useState(false);
   const { event } = info;
-  console.log(event.startStr, "event");
   return (
     <>
       <div className="flex justify-between items-center w-full">

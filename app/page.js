@@ -1,24 +1,18 @@
 "use client";
-import FullCalendar from "@fullcalendar/react";
 import daygridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { useState, useEffect } from "react";
-import { v4 as uuid } from "uuid";
+import FullCalendar from "@fullcalendar/react";
+import { useEffect, useState } from "react";
 import EventItem from "../components/EventItem.jsx";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../components/ui/dialog.jsx";
 
 import CreateModal from "../components/CreateModal.jsx";
+import axios from "axios";
 
 const MyCalendar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState();
+  const [resEv, setResEv] = useState([]);
+
   const event = [
     {
       start: "2024-03-06",
@@ -34,7 +28,29 @@ const MyCalendar = () => {
     },
   ];
 
-  const [events, setEvents] = useState(event);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/events");
+        console.log(res.data.data);
+        const formattedEvents = res.data.data.map((event) => ({
+          start: event.startDate,
+          end: event.endDate,
+          title: event.title,
+          id: event.id,
+        }));
+        setEvents(formattedEvents);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        // Consider displaying an error message to the user
+      }
+    };
+
+    // Now we call fetchData within useEffect
+    fetchData();
+  }, []);
 
   const handleEventDrop = (info) => {
     // Deletion logic:
